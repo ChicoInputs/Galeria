@@ -3,6 +3,7 @@ package lorenssute.dossantos.francisco.galeria;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.media.Image;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,9 +15,12 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import java.io.File;
 
 public class PhotoActivity extends AppCompatActivity {
 
@@ -35,14 +39,14 @@ public class PhotoActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.tbPhoto);
         setSupportActionBar(toolbar);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        ActionBar actionBar = getSupportActionBar(); // obtém da Activity a ActionBar padrão
+        actionBar.setDisplayHomeAsUpEnabled(true); // habilita o botão de voltar na ActionBar
 
         Intent i = getIntent();
-        photoPath = i.getStringExtra("photo_path");
+        photoPath = i.getStringExtra("photo_path");//obtém o caminho da foto que foi envia via o Intent de criação
 
-        Bitmap bitmap = Util.getBitmap(photoPath);
-        ImageView imPhoto = findViewById(R.id.imPhoto);
+        Bitmap bitmap = Util.getBitmap(photoPath); //  carregue a foto em um Bitmap
+        ImageView imPhoto = findViewById(R.id.imPhoto);// sete o Bitmap no ImageView
         imPhoto.setImageBitmap(bitmap);
     }
     @Override
@@ -55,6 +59,7 @@ public class PhotoActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // O método acima será chamado sempre que um item da ToolBar for selecionado. Caso o ícone de câmera tenha sido clicado, então será executado código que compartilha a foto
         switch (item.getItemId()) {
             case R.id.opShare:
                 sharePhoto();
@@ -62,5 +67,13 @@ public class PhotoActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    void sharePhoto() {
+        // Codigo para compartilhar a foto
+        Uri photoUri = FileProvider.getUriForFile(PhotoActivity.this, "lorenssute.dossantos.francisco.galeria.filepreovider", new File(photoPath));
+        Intent i = new Intent(Intent.ACTION_SEND);
+        i.putExtra(Intent.EXTRA_STREAM, photoUri);
+        i.setType("image/jpeg");
+        startActivity(i);
     }
 }

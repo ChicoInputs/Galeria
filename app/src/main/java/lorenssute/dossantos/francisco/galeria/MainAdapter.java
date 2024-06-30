@@ -28,13 +28,14 @@ public class MainAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
         ImageView imPhoto = holder.itemView.findViewById(R.id.imItem);
-        int w = (int)
+        int w = (int)   // obtidos as dimensões que a imagem vai ter na lista
         mainActivity.getResources().getDimension(R.dimen.itemWidth);
-        int h = (int)
+        int h = (int) // obtidos as dimensões que a imagem vai ter na lista
         mainActivity.getResources().getDimension(R.dimen.itemHeight);
-        Bitmap bitmap = Util.getBitmap(photos.get(position), w, h);
-        imPhoto.setImageBitmap(bitmap);
+        Bitmap bitmap = Util.getBitmap(photos.get(position), w, h); //carrega a imagem em um Bitmap ao mesmo tempo em que a foto é escalada para casar com os tamanhos definidos para o ImageView
+        imPhoto.setImageBitmap(bitmap); //  Bitmap é setado no ImageView
         imPhoto.setOnClickListener(new View.OnClickListener() {
+            // é definido o que acontece quando o usuário clica em cima de uma imagem: a app navega para PhotoActivity, cuja função é exibir a foto e tamanho ampliado
             @Override
             public void onClick(View v) {
                 mainActivity.startPhotoActivity(photos.get(position));

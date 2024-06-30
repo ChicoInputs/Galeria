@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="lorenssute.dossantos.francisco.galeria"
     xmlns:tools="http://schemas.android.com/tools">
 
     <application
@@ -41,5 +42,8 @@
             </intent-filter>
         </activity>
     </application>
+    <uses-feature android:name="android.hardware.camera"
+        android:required="true"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
 
 </manifest>
